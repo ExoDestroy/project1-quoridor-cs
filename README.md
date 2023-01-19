@@ -1,2 +1,2 @@
-# project1-quoridor-cs
+# Quoridor 1.0
 First project using C# to create the board game Quoridor
