@@ -2,8 +2,13 @@ using System;
 
 namespace GameObjects;
 
+public delegate void MoveDel(Player player, string direction);
+
 public static class Board
 {
+
+    public static MoveDel movePlayer = movePlayerPiece;
+    
     private static char[] board = 
     {
       '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢',
@@ -17,6 +22,11 @@ public static class Board
       '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢'
     };
 
+    internal static void placePlayer(Player player)
+    {
+        board[player.Position] = player.Symbol;
+    }
+
     public static void printBoard()
     {
         Console.Clear();
@@ -27,13 +37,15 @@ public static class Board
         {
             Console.Write(b + 1 + " ");
             for (byte c = 0; c < 9; c++)
-                Console.Write(board[(b * 9) + c] + " ");
+                Console.Write(" " + board[(b * 9) + c] + " ");
             Console.WriteLine();
         }
     }
 
-    private static void movePlayerPiece(int currentPosition, string direction)
+    private static void movePlayerPiece(Player player, string direction)
     {
-
+        board[player.Position + (sbyte)Enum.Parse(typeof(Movement), direction, true)] = board[player.Position];
+        board[player.Position] = '▢';
     }
+
 }

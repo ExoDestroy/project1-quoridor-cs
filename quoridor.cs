@@ -5,7 +5,6 @@ namespace MyFirstProgram;
 
 class Quoridor
 {
-    public delegate int movePlayer(int currentPosition, string direction);
 
     public static void write(params string[] messages)
     {
@@ -16,12 +15,13 @@ class Quoridor
     static void Main(string[] args)
     {
         
-        // Feel free to add more (:
-        var symbols = new List<char> { '★', '❋', '✪', '♧', '♥', '●', '◆' };
+        Console.Clear();
 
+        // Feel free to add more (:
+        var symbols = new List<char> { '★', '❋', '✪', '♥', '♥', '♥', '♥' };
         write("Welcome to Quoridor 1.0", "Instructions in md file");
 
-        int pCount;
+        sbyte pCount;
 
         while (true)
         {
@@ -30,13 +30,14 @@ class Quoridor
 
             try
             {
-                pCount = Convert.ToInt16(Console.ReadLine());
+                pCount = Convert.ToSByte(Console.ReadLine());
 
                 if (pCount != 2 && pCount != 4)
                     throw new Exception();
             }
             catch (Exception)
             {
+                Console.Clear();
                 write("Please enter 2 or 4");
                 continue;
             }
@@ -54,14 +55,13 @@ class Quoridor
             return true;
         };
 
-        var players = new List<Player>();
-        string? name;
+        Console.Clear();
 
-        for (int i = 0; i < pCount; i++)
+        for (sbyte i = 0; i < pCount; i++)
         {
             write($"Enter player {i + 1}\'s name: ");
 
-            name = Console.ReadLine();
+            string? name = Console.ReadLine();
 
             if (name == null)
                 continue;
@@ -71,15 +71,61 @@ class Quoridor
             else
             {
                 Console.Clear();
+                
                 write("Choose a unique name.");
+                
                 i--;
                 continue;
             }
 
-            players.Add(new Player(name, symbols[i]));
+            Console.Clear();
         }
 
-        foreach (Player p in players)
-            Console.WriteLine($"{p.Name}\t{p.Symbol}");
+        var players = new List<Player>();
+
+        Console.Clear();
+
+        for (sbyte i = 0; i < pCount; i++)
+        {
+            write($"Chose your symbol {names[i]}: ");
+
+            for (sbyte j = 0; j < symbols.Count(); j++)
+                Console.WriteLine($"{j + 1} ). {symbols[j]}\n");
+
+            try
+            {
+                sbyte choice = Convert.ToSByte(Console.ReadLine());
+
+                if (choice < 1 || choice > symbols.Count())
+                    throw new Exception();
+
+                var p = new Player(names[i], symbols[choice - 1]);
+                Board.placePlayer(p);
+
+                players.Add(p);
+                symbols.RemoveAt(choice - 1);
+            }
+            catch (Exception)
+            {
+                Console.Clear();
+
+                write($"Please choose numbers 1-{symbols.Count()}.");
+
+                i--;
+                continue;
+            }
+
+            Console.Clear();
+        }
+
+
+        // int turns = 0;
+
+        while (true)
+        {
+            Board.printBoard();
+            break;
+        }
+
     }
 }
