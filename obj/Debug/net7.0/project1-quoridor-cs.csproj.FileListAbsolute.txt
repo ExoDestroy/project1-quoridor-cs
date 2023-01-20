@@ -1,0 +1,15 @@
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.csproj.AssemblyReference.cache
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.AssemblyInfoInputs.cache
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.AssemblyInfo.cs
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.csproj.CoreCompileInputs.cache
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\bin\Debug\net7.0\project1-quoridor-cs.exe
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\bin\Debug\net7.0\project1-quoridor-cs.deps.json
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\bin\Debug\net7.0\project1-quoridor-cs.runtimeconfig.json
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\bin\Debug\net7.0\project1-quoridor-cs.dll
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\bin\Debug\net7.0\project1-quoridor-cs.pdb
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.dll
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\refint\project1-quoridor-cs.dll
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.pdb
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\project1-quoridor-cs.genruntimeconfig.cache
+C:\Users\shili\OneDrive\Documents\GitHub\project1-quoridor-cs\obj\Debug\net7.0\ref\project1-quoridor-cs.dll

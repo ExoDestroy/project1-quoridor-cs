@@ -1,4 +1,5 @@
 using System;
+using GameObjects;
 
 namespace MyFirstProgram;
 
@@ -51,15 +52,19 @@ class Quoridor
                 if (s.Equals(name))
                     return false;
             return true;
-        }
+        };
 
         var players = new List<Player>();
+        string? name;
 
         for (int i = 0; i < pCount; i++)
         {
             write($"Enter player {i + 1}\'s name: ");
 
-            string name = Console.ReadLine();
+            name = Console.ReadLine();
+
+            if (name == null)
+                continue;
 
             if (isUniqueName(name))
                 names.Add(name);
@@ -71,10 +76,10 @@ class Quoridor
                 continue;
             }
 
-            players.Add(new Player(name, symbols.get(i)));
+            players.Add(new Player(name, symbols[i]));
         }
 
-        foreach (Player p : players)
-            Console.WriteLine(p.Name, p.Symbol);
+        foreach (Player p in players)
+            Console.WriteLine($"{p.Name}\t{p.Symbol}");
     }
 }

@@ -4,7 +4,7 @@ namespace GameObjects;
 
 public static class Board
 {
-    private static char[][] board = 
+    private static char[] board = 
     {
       '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢',
       '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢',
