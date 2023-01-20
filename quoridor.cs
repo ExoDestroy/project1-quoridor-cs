@@ -119,11 +119,12 @@ class Quoridor
         }
 
 
-        // int turns = 0;
+        int turns = 0;
 
         while (true)
         {
             Board.printBoard();
+            
             break;
         }
 

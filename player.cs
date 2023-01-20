@@ -25,11 +25,13 @@ public class Player
     private static sbyte[] positions = { 4, 76, 36, 44 };
 
     public string? Name { get; init; }
+    private string? PrintName { get; init; }
     public char Symbol { get; init; }
 
     public Player(string name, char symbol)
     { 
         (Name, Symbol) = (name, symbol);
+        PrintName = (Name[Name.Length - 1] == 's') ? $"[ {Name}\' turn ]" : $"[ {Name}\'s turn ]";
         Position = positions[playerCount];
         playerCount++;
     }
@@ -38,5 +40,4 @@ public class Player
     {
         player.Position += (sbyte)Enum.Parse(typeof(Movement), direction, true);
     }
-
 }
