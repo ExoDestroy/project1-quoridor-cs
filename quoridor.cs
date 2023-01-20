@@ -15,7 +15,7 @@ class Quoridor
     static void Main(string[] args)
     {
         
-        //Console.Clear();
+        Console.Clear();
 
         // Feel free to add more (:
         var symbols = new List<char> { '★', '❋', '✪', '♥', '♥', '♥', '♥' };
@@ -119,11 +119,15 @@ class Quoridor
         }
 
 
-        // int turns = 0;
+        int turns = 0;
 
         while (true)
         {
             Board.printBoard();
+
+            write(players[turns % players.Count()].PrintName + "\n");
+
+            
 
             break;
         }
