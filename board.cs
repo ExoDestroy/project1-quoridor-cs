@@ -2,13 +2,8 @@ using System;
 
 namespace GameObjects;
 
-public delegate void MoveDel(Player player, string direction);
-
 public static class Board
 {
-
-    public static MoveDel movePlayer = movePlayerPiece;
-    
     private static char[] board = 
     {
       '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢', '▢',

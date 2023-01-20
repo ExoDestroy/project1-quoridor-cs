@@ -15,8 +15,11 @@ internal enum Movement : sbyte
     JDown   = 18                   
 }
 
+public delegate void MoveDel(Player player, string direction);
+
 public class Player
 {
+    public static MoveDel movePlayer = movePlayerPiece;
 
     private static sbyte playerCount = 0;
 
