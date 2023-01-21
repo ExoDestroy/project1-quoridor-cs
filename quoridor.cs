@@ -14,11 +14,15 @@ class Quoridor
 
     static void Main(string[] args)
     {
+
+        Console.ResetColor();
         
         Console.Clear();
 
+        Console.ResetColor();
+
         // Feel free to add more (:
-        var symbols = new List<char> { '★', '❋', '✪', '♥', '♥', '♥', '♥' };
+        var symbols = new List<char> { '☻', '♣', '♦', '♥' };
         write("Welcome to Quoridor 1.0", "Instructions in md file");
 
         sbyte pCount;
@@ -125,9 +129,49 @@ class Quoridor
         {
             Board.printBoard();
 
-            write(players[turns % players.Count()].PrintName + "\n");
-
+            write(players[turns % players.Count()].PrintName);
+            Console.WriteLine();
             
+            var options = players[turns % players.Count()].printOptions();
+
+            string? inp = Console.ReadLine();
+
+            if (inp == null)
+                continue;
+                
+            switch (direction.ToLower())
+            {   
+                case "l":
+                case "le":
+                case "lef":
+                case "left":
+                    direction = "left";
+                    break;
+                case "r":
+                case "ri":
+                case "rig":
+                case "righ":
+                case "right":
+                    direction = "right";
+                    break;
+                case "u":
+                case "up":
+                    direction = "up";
+                    break;
+                case "d":
+                case "do":
+                case "dow":
+                case "down":
+                    direction = "down";
+                    break;
+            }        
+
+            foreach (String s in options)
+                if (s.Contains(inp))
+                {
+                    
+                }
+                    
 
             break;
         }
