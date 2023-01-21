@@ -132,46 +132,94 @@ class Quoridor
             write(players[turns % players.Count()].PrintName);
             Console.WriteLine();
             
-            var options = players[turns % players.Count()].printOptions();
+            var options = players[turns % players.Count()].getOptions();
 
-            string? inp = Console.ReadLine();
+            while (true)
+            {
 
-            if (inp == null)
-                continue;
-                
-            switch (direction.ToLower())
-            {   
-                case "l":
-                case "le":
-                case "lef":
-                case "left":
-                    direction = "left";
-                    break;
-                case "r":
-                case "ri":
-                case "rig":
-                case "righ":
-                case "right":
-                    direction = "right";
-                    break;
-                case "u":
-                case "up":
-                    direction = "up";
-                    break;
-                case "d":
-                case "do":
-                case "dow":
-                case "down":
-                    direction = "down";
-                    break;
-            }        
+                foreach (String s in options)
+                    write(s);
 
-            foreach (String s in options)
-                if (s.Contains(inp))
-                {
-                    
+                string? inp = Console.ReadLine();
+
+                if (inp == null)
+                    continue;
+
+                // Acceptable inputs
+                switch (inp.ToLower())
+                {   
+                    case "l":
+                    case "le":
+                    case "lef":
+                    case "left":
+                    case "move l":
+                    case "move le":
+                    case "move lef":
+                    case "move left":
+                        inp = "left";
+                        break;
+                    case "r":
+                    case "ri":
+                    case "rig":
+                    case "righ":
+                    case "right":
+                    case "move r":
+                    case "move ri":
+                    case "move rig":
+                    case "move righ":
+                    case "move right":
+                        inp = "right";
+                        break;
+                    case "u":
+                    case "up":
+                    case "move u":
+                    case "move up":
+                        inp = "up";
+                        break;
+                    case "d":
+                    case "do":
+                    case "dow":
+                    case "down":
+                    case "move d":
+                    case "move do":
+                    case "move dow":
+                    case "move down":
+                        inp = "down";
+                        break;
+                    case "w":
+                    case "wa":
+                    case "wal":
+                    case "wall":
+                    case "p":
+                    case "pl":
+                    case "pla":
+                    case "plac":
+                    case "place":
+                    case "place w":
+                    case "place wa":
+                    case "place wal":
+                    case "place wall":
+                        inp = "wall";
+                        break;
+                    default:
+                        write("Enter one of the given options:");
+                        continue;
                 }
-                    
+
+                char optionType = validateOption(options, inp);
+
+                if (optionType == 'b')
+                {
+                    write("Enter one of the given options:");
+                    continue;
+                } else if (optionType == 'j')
+                    inp = $"J{inp}";
+
+                Player.movePlayer(players[turns % players.Count()], inp);
+
+            }
+
+            Board.printBoard();
 
             break;
         }

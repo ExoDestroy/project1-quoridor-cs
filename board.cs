@@ -24,7 +24,7 @@ public static class Board
     }
 
     public static void printBoard()
-    {
+    {  
         Console.Clear();
 
         Console.ForegroundColor = ConsoleColor.Cyan;
@@ -42,10 +42,10 @@ public static class Board
         }
     }
 
-    private static void movePlayerPiece(Player player, string direction)
+    internal static void movePlayerPiece(Player player, string direction)
     {
         board[player.Position + (sbyte)Enum.Parse(typeof(Movement), direction, true)] = board[player.Position];
-        board[player.Position] = '▢';
+        board[player.Position] = '■';
     }
 
 }
