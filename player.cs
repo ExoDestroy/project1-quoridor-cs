@@ -15,12 +15,8 @@ internal enum Movement : sbyte
     JDown    = 18
 }
 
-public delegate void MoveDel(Player player, string direction);
-
 public class Player
 {
-    public static MoveDel movePlayer = (MoveDel)(Board.movePlayerPiece) + (MoveDel)(Player.movePlayerPosition);
-
     private static byte playerCount = 0;
 
     internal sbyte Position;
@@ -30,12 +26,15 @@ public class Player
     public string Name { get; init; }
     public string PrintName { get; init; }
     public char Symbol { get; init; }
+    internal sbyte Walls { get; set; } = 10;
+
+    private int winCondition = playerCount;
 
     public Player(string name, char symbol)
     { 
         (Name, Symbol) = (name, symbol);
-        PrintName = (Name[Name.Length - 1] == 's') ? $"{Name}\' turn" : $"{Name}\'s turn";
-        Position = positions[playerCount];
+        PrintName = (Name[Name.Length - 1] == 's') ? $"{Name}\' turn  {Symbol}" : $"{Name}\'s turn  {Symbol}";
+        Position = (sbyte)positions[playerCount];
         playerCount++;
     }
 
@@ -64,23 +63,45 @@ public class Player
         else if (Position + 18 < 81 && Board.board[Position + 18] == '■' && Board.board[Position + 9] != '#')
             options.Add("Jump over player down");
 
+        if (Walls > 0)
+            options.Add($"Place wall ({Walls} left)");
+
         return options;
 
     }
 
-    public char validateOption(List<string> options, string input)
+    public static char validateOption(List<string> options, string input)
     {
         foreach (String s in options)
             if (s.Contains(input))
                 if (s[0] == 'J')
-                    return 'j'
+                    return 'j';
+                else if (s[0] == 'P')
+                    return 'w';
                 else
                     return 'g';
         return 'b';
     }
 
-    private static void movePlayerPosition(Player player, string direction)
+    public bool checkForWin()
     {
-        player.Position += (sbyte)Enum.Parse(typeof(Movement), direction, true);
+        switch (winCondition)
+        {
+            case 0:
+                return Position > 71;
+            case 1:
+                return Position < 9;
+            case 2:
+                return Position % 9 == 8;
+            case 3:
+                return Position % 9 == 0;
+            default:
+                throw new Exception();
+        }
+    }
+
+    internal static void movePlayerPosition(Player player, string direction)
+    {
+        player.Position += (sbyte)(Enum.Parse(typeof(Movement), direction, true));
     }
 }

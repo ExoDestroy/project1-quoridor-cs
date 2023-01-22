@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using GameObjects;
 
 namespace MyFirstProgram;
@@ -8,15 +9,15 @@ class Quoridor
 
     public static void write(params string[] messages)
     {
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
         foreach (string s in messages)
             Console.WriteLine("[ " + s + " ]\n");
+        Console.ResetColor();
     }
 
     static void Main(string[] args)
     {
 
-        Console.ResetColor();
-        
         Console.Clear();
 
         Console.ResetColor();
@@ -25,7 +26,7 @@ class Quoridor
         var symbols = new List<char> { '☻', '♣', '♦', '♥' };
         write("Welcome to Quoridor 1.0", "Instructions in md file");
 
-        sbyte pCount;
+        byte pCount;
 
         while (true)
         {
@@ -34,7 +35,7 @@ class Quoridor
 
             try
             {
-                pCount = Convert.ToSByte(Console.ReadLine());
+                pCount = Convert.ToByte(Console.ReadLine());
 
                 if (pCount != 2 && pCount != 4)
                     throw new Exception();
@@ -59,16 +60,35 @@ class Quoridor
             return true;
         };
 
+        Func<string, bool> isOnlyWhiteSpace = name => 
+        {
+            foreach (char c in name)
+                if (c != ' ')
+                    return false;
+            return true;
+        };
+
         Console.Clear();
 
-        for (sbyte i = 0; i < pCount; i++)
+        for (byte i = 0; i < pCount; i++)
         {
             write($"Enter player {i + 1}\'s name: ");
 
             string? name = Console.ReadLine();
 
-            if (name == null)
+            if (name == null) 
+            {
+                i--;
                 continue;
+            }
+
+            name.Trim();
+
+            if (name == "" || isOnlyWhiteSpace(name))
+            {
+                i--;
+                continue;
+            }
 
             if (isUniqueName(name))
                 names.Add(name);
@@ -89,16 +109,16 @@ class Quoridor
 
         Console.Clear();
 
-        for (sbyte i = 0; i < pCount; i++)
+        for (byte i = 0; i < pCount; i++)
         {
             write($"Chose your symbol {names[i]}: ");
 
-            for (sbyte j = 0; j < symbols.Count(); j++)
+            for (byte j = 0; j < symbols.Count(); j++)
                 Console.WriteLine($"{j + 1} ). {symbols[j]}\n");
 
             try
             {
-                sbyte choice = Convert.ToSByte(Console.ReadLine());
+                byte choice = Convert.ToByte(Console.ReadLine());
 
                 if (choice < 1 || choice > symbols.Count())
                     throw new Exception();
@@ -124,26 +144,31 @@ class Quoridor
 
 
         int turns = 0;
+        bool endGame = false;
 
-        while (true)
+        while (endGame == false)
         {
             Board.printBoard();
 
-            write(players[turns % players.Count()].PrintName);
-            Console.WriteLine();
-            
             var options = players[turns % players.Count()].getOptions();
 
             while (true)
             {
+
+                Console.WriteLine();
+                write(players[turns % players.Count()].PrintName);
+                Console.WriteLine();
 
                 foreach (String s in options)
                     write(s);
 
                 string? inp = Console.ReadLine();
 
-                if (inp == null)
+                if (inp == null || inp == "")
+                {
+                    write("Enter one of the given options:");
                     continue;
+                }
 
                 // Acceptable inputs
                 switch (inp.ToLower())
@@ -206,7 +231,7 @@ class Quoridor
                         continue;
                 }
 
-                char optionType = validateOption(options, inp);
+                char optionType = Player.validateOption(options, inp);
 
                 if (optionType == 'b')
                 {
@@ -215,13 +240,90 @@ class Quoridor
                 } else if (optionType == 'j')
                     inp = $"J{inp}";
 
-                Player.movePlayer(players[turns % players.Count()], inp);
+                if (optionType == 'w')
+                {
+                    write("Vertical (tall) or horizontal (flat) wall?");
+
+                    string? wallInp = Console.ReadLine();
+
+                    if (wallInp == null || wallInp == "")
+                    {
+                        write("Invalid input");
+                        continue;
+                    }
+
+                    switch (wallInp.ToLower())
+                    {
+                        case "v":
+                        case "ve":
+                        case "ver":
+                        case "vert":
+                        case "verti":
+                        case "vertic":
+                        case "vertica":
+                        case "vertical":
+                        case "t":
+                        case "ta":
+                        case "tal":
+                        case "tall":
+                            wallInp = "tall";
+                            break;
+                        case "h":
+                        case "ho":
+                        case "hor":
+                        case "hori":
+                        case "horiz":
+                        case "horizo":
+                        case "horizon":
+                        case "horizont":
+                        case "horizonta":
+                        case "horizontal":
+                        case "f":
+                        case "fl":
+                        case "fla":
+                        case "flat":
+                            wallInp = "flat";
+                            break;
+                        default:
+                            write("Invalid input");
+                            continue;
+                    }
+
+                    Board.printBoard();
+
+                    write("Coordinate of upper-left corner of wall:");
+
+                    string? coordInp = Console.ReadLine();
+
+                    if (coordInp == null || coordInp == "" || coordInp.Length != 2 || !Regex.Match(coordInp.ToLower(), "[a-i][1-9]").Success)
+                    {
+                        write("Invalid input");
+                        continue;
+                    }
+
+                    if (!Board.placeWall(players[turns % players.Count()], coordInp, wallInp))
+                    {
+                        write("Invalid input");
+                        continue;
+                    }
+
+                } else
+                    Board.movePlayer(players[turns % players.Count()], inp);
+
+                break;
 
             }
 
-            Board.printBoard();
+            foreach (Player p in players)
+                if (p.checkForWin())
+                {
+                    Board.printBoard();
+                    write($"{p.Name} reached the goal and won the game!", $"This game lasted for {turns} turns");
+                    endGame = true;
+                    break;
+                }
 
-            break;
+            turns++;
         }
 
     }
